@@ -214,8 +214,8 @@ function generateLink(query, ...extra){
             link = link + '&' + extra[i].parameter + extra[i].value;
         }
     }
-    
-    return recipes;
+
+    return link;
 }
 
 // Make GET request
@@ -228,6 +228,15 @@ function httpGetAsync(e_Url, callback)
     }
     xmlHttp.open("GET", e_Url, true); // true for asynchronous 
     xmlHttp.send(null);
+}
+
+function httpGetRecipes(e_Url, callback)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", e_Url, false ); // false for synchronous request
+    xmlHttp.send( null );
+    callback(xmlHttp.responseText);
+    return recipes;
 }
 
 // Process results from GET request for recipe
@@ -259,22 +268,9 @@ function e_Callback(response){
 
         recipes.push(newRecipe);
     }
-    /* EXAMPLE BELOW */
-    /*
-    // print stuff to check
-    const newIngr = Object.create(itemObject);
-    newIngr.name = "pineapple";
-    newIngr.amount = 1;
-    inventory.push(newIngr);
+    console.log("recipes " + recipes);
 
-    getShoppingList(inventory, recipes[1].ingredients);
-    //console.log("resp: " + JSON.stringify(resp));
-    console.log('inventory: ' + JSON.stringify(inventory));
-    console.log('recipe ingredients: ' + JSON.stringify(recipes[1].ingredients));
-    //console.log("recipes: " + JSON.stringify(recipes));
-    console.log("shoppinglist: " + JSON.stringify(shoppingList));
-    */
-
+    
 }
 
 // Process results from GET request for ingredient
@@ -352,9 +348,16 @@ function strToNumber(str){
     return parseFloat(str);
 }
 
+async function getRecipes(){
+    let promise = Promise.resolve()
+    let newReps = await promise;
+    return newReps;
+}
 
 $(document).ready(function(){
     let lol = generateLink('pineapple');
+    httpGetRecipes(lol, e_Callback);
     console.log("lol: " + lol);
+    console.log("recipes " + recipes);
     //getIngredientNutrition("apple");
   });
