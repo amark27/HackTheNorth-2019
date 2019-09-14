@@ -1,0 +1,47 @@
+* {
+  font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-size: 10pt;
+}
+
+header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  margin: 0;
+  height: 7rem;
+  background: #4caf50;
+}
+
+footer {
+  width: 100vw;
+  height: 2rem;
+  background: #4caf50;
+}
+
+h1 {
+  margin: 0;
+  font-size: 4rem;
+}
+
+div.spacer {
+  height: 10rem;
+}
+
+.navigation-links {
+  height: 100vh;
+}
+
+.navigation-links a.link {
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+  font-size: 3rem;
+  background: #eeeeee;
+  padding: 30px 10px 10px 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  -webkit-box-shadow: 5px 5px 30px 10px rgba(189, 189, 189, 0.75);
+          box-shadow: 5px 5px 30px 10px rgba(189, 189, 189, 0.75);
+}
+/*# sourceMappingURL=style.css.map */
