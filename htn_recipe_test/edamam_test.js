@@ -1,12 +1,11 @@
-document.getElementById('e_out').innerHTML="jsworks";
-
+//document.getElementById('e_out').innerHTML="jsworks";
 const e_BASE_LINK = 'https://api.edamam.com/search?';
 const e_APP_ID = '4f1ced5e';
 const e_APP_KEY = '80e98c7d232cd636d65a70922b58721f';
 var inventory = [];
 var ingredients = [];
-var diet = [];
-var health = [];
+//var diet = [];
+//var health = [];
 var shoppingList = [];
 var itemObject = {
     name:"defaultItemName", // Item name
@@ -69,27 +68,28 @@ function generateLink(query, ...extra){
     return link;
 }
 
-var HttpClient = function() {
-    this.get = function(e_Url, e_Callback) {
-        var anHttpRequest = new XMLHttpRequest();
-        anHttpRequest.onreadystatechange = function() { 
-            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-            e_Callback(anHttpRequest.responseText);
-        };
-
-        anHttpRequest.open( "GET", e_Url, true );            
-        anHttpRequest.send( null );
-    };
-};
-
-function makeEdamamRequest(ingredients, ){
-    var client = new HttpClient();
-    client.get(getEdamamLink, function(response) {
-        return response;
-    });
+// Make GET request
+function httpGetAsync(e_Url, e_Callback)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            e_Callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", e_Url, true); // true for asynchronous 
+    xmlHttp.send(null);
 }
 
-
+//TODO:
 function e_Callback(response){
     // TODO
+    console.log("resp: " + JSON.stringify(JSON.parse(response)));
 }
+
+$(document).ready(function(){
+    console.log("hi");
+    let lol = generateLink('pineapple');
+    console.log("lol: " + lol);
+
+    httpGetAsync(lol, e_Callback);
+  });
