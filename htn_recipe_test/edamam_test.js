@@ -260,6 +260,8 @@ function e_Callback(response){
     }
 
 
+    /* EXAMPLE BELOW */
+    /*
     // print stuff to check
     const newIngr = Object.create(itemObject);
     newIngr.name = "pineapple";
@@ -272,6 +274,7 @@ function e_Callback(response){
     console.log('recipe ingredients: ' + JSON.stringify(recipes[1].ingredients));
     //console.log("recipes: " + JSON.stringify(recipes));
     console.log("shoppinglist: " + JSON.stringify(shoppingList));
+    */
 
 }
 
