@@ -19,12 +19,12 @@ var recipeObject = {
     image:"imgUrl", // Image url
     sourceName: "source", // Name of recipe source
     sourceLink: "sourceLink",
-    yield: 0, // Units
     dietLabels: [], //Diet labels: “balanced”, “high-protein”, “high-fiber”, “low-fat”, “low-carb”, “low-sodium” (labels are per serving)
     healthLabels: [], //“vegan”, “vegetarian”, “paleo”, “dairy-free”, “gluten-free”, “wheat-free”, “fat-free”, “low-sugar”, “egg-free”, “peanut-free”, “tree-nut-free”, “soy-free”, “fish-free”, “shellfish-free” (labels are per serving)
-    ingredientLines: [], //actual words for recipe
-    ingredients: [], //ingredients for storage
+    ingredientLines: [], //actual ingredients in string for recipe
     instructions: [],
+    ingredients: [], //ingredients for storage
+    totalCal: 0,
     nutrition: []
 };
 
@@ -112,6 +112,51 @@ function getIngredientNutrition(name){
 // Assumes that ingredients have unique names
 function getShoppingList(inventory, ingredients){
     let num_ingredients = ingredients.length;
+    let num_inv = inventory.length;
+
+    //add to shopping list
+    for (var i = 0; i < num_ingredients; i++){
+        // Run through all ingredients (parse through ingredient text for inventory items)
+        let inInv = isIngrInInv(ingredients[i], inventory);
+        if (!inInv){
+            // not in inventory, so add exact amount to shopping list
+            const newIngredient = Object.create(itemObject);
+            newIngredient.name = ingredients[i].name;
+            newIngredient.amount = ingredients[i].amount;
+            addToShoppingList(shoppingList, newIngredient);
+        }
+    }
+
+}
+
+function isIngrInInv (ingredient, inventory){
+    //ingredient is an itemObject, inventory is an array of itemObjects
+    //returns bool value and adds to shopping list
+
+    let num_inv = inventory.length;
+
+    for (var j = 0; j < num_inv; j++){
+        let tmp_ingr_arr = ingredient.name.split(" ");
+        for (var k = 0; k < tmp_ingr_arr.length; k++){
+            if (tmp_ingr_arr[k] == inventory[j].name){
+                // Ingredient is in inventory
+                if (inventory[j].amount < ingredient.amount){
+                    const newIngredient = Object.create(itemObject);
+                    newIngredient.name = inventory[j].name;
+                    newIngredient.amount = ingredient.amount - inventory[j].amount;
+                    addToShoppingList(shoppingList, newIngredient);
+                }
+                return true;
+            }
+
+        }
+
+    }
+    return false;
+}
+/*
+function getShoppingList(inventory, ingredients){
+    let num_ingredients = ingredients.length;
 
     // add to shopping list
     for (var i = 0; i < num_ingredients; i++){
@@ -125,28 +170,36 @@ function getShoppingList(inventory, ingredients){
             addToShoppingList(shoppingList, newIngredient);
         } else {
             // Includes ingredient
-            let tmpIndex = inventory.findIndex(tmp);
-            if (inventory[tmpIndex].amount < ingredients[i].amount){
-                // Add difference in amount to shopping list
-                const newIngredient = Object.create(itemObject);
-                newIngredient.name = ingredients[i].name;
-                newIngredient.amount = ingredients[i].amount - inventory[tmpIndex].amount;
-                addToShoppingList(shoppingList, newIngredient);
-            }
-            
+            console.log("tmp : " + tmp);
+            console.log("tmp : " + JSON.stringify(tmp));
+            let num_inventory = inventory.length;
+            for (var j = 0; j < num_inventory; j++){
+                if ((inventory[j].name == ingredients[i].name) && (inventory[j].amount < ingredients[i].amount)){
+                    const newIngredient = Object.create(itemObject);
+                    newIngredient.name = ingredients[i].name;
+                    newIngredient.amount = ingredients[i].amount - inventory[tmpIndex].amount;
+                    addToShoppingList(shoppingList, newIngredient);
+                }
+
+            }            
         }
     }
     return shoppingList;
 }
-
+*/
 function addToShoppingList(shoppingList, item){
     // Check if item is already in shopping list, if so incr quantity
     let slength = shoppingList.length;
     for (var i = 0; i < slength; i++){
         if (shoppingList[i].name == item.name){
             shoppingList[i].amount += item.amount;
+            return;
         }
     }
+    const tmp = Object.create(itemObject);
+    tmp.name = item.name;
+    tmp.amount = item.amount;
+    shoppingList.push(tmp);
 }
 
 function generateLink(query, ...extra){
@@ -213,11 +266,11 @@ function e_Callback(response){
     newIngr.amount = 1;
     inventory.push(newIngr);
 
-    console.log("num of recipes: " + recipes.length);
-    getShoppingList(inventory, recipes[0].ingredients);
-    console.log("resp: " + JSON.stringify(resp));
-    console.log('ingredients: ' + JSON.stringify(ingredients));
-    console.log("recipes: " + JSON.stringify(recipes));
+    getShoppingList(inventory, recipes[1].ingredients);
+    //console.log("resp: " + JSON.stringify(resp));
+    console.log('inventory: ' + JSON.stringify(inventory));
+    console.log('recipe ingredients: ' + JSON.stringify(recipes[1].ingredients));
+    //console.log("recipes: " + JSON.stringify(recipes));
     console.log("shoppinglist: " + JSON.stringify(shoppingList));
 
 }
@@ -248,8 +301,8 @@ function i_Callback(response){
 // Gets an array of itemObjects (ingredients) from an array of ingredients as text
 function getIngredientsArray(ingredientTextArray){
     //ingredientTextArray is an array of ingredients as text as quantity + ingredient
-    console.log("in get ingr");
-    console.log("ingr txt array: " + JSON.stringify(ingredientTextArray));
+    //console.log("in get ingr");
+    //console.log("ingr txt array: " + JSON.stringify(ingredientTextArray));
     let newArray = [];
     let num_ingredients = ingredientTextArray.length;
 
@@ -267,7 +320,7 @@ function getIngredientsArray(ingredientTextArray){
         newArray.push(newIngredient);
     }
 
-    console.log("ingredients? " + JSON.stringify(newArray));
+    //console.log("ingredients? " + JSON.stringify(newArray));
     return newArray;
 }
 
