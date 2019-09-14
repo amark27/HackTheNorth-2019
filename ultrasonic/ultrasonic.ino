@@ -1,9 +1,17 @@
+#include <SoftwareSerial.h>
+
+int bluetoothTx = 0;  // TX-O pin of bluetooth mate, Arduino D2
+int bluetoothRx = 1;  // RX-I pin of bluetooth mate, Arduino D3
+
+SoftwareSerial bluetooth(bluetoothTx, bluetoothRx);
+
 const int trig = 9;
 const int echo = 10;
 const float speedOfSound = 0.0343; // cm/ms
 
 int startingDist;
 int distance;
+bool sendSig = true;
 
 void setup() {
   // put your setup code here, to run once:
@@ -29,15 +37,22 @@ void loop() {
   digitalWrite(trig,LOW);
 
   distance = (speedOfSound/2)*pulseIn(echo, HIGH);
+  
   if(distance >= startingDist + 3){
     //Serial.print(distance);
     //Serial.println("cm");
     //Serial.println("");
     Serial.println("Open");
+    sendSig = true;
     delay(1000);
   }
   else{
-    Serial.println("closed");  
+    if (sendSig) {
+      // do stuff
+      Serial.println("sending signal");
+    }
+    Serial.println("closed");
+    sendSig = false;
     delay(1000);
   }
   
