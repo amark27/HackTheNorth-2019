@@ -6,14 +6,14 @@ import NavBar from './navbar.jsx';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 const Header = (props) => {
-    console.log("Header: "+ JSON.stringify(props.objects));
+   
     return (
         <BrowserRouter>
             <header>
               <NavBar/>  
                 <Switch>
-                    <Route exact path="/" render={(props) => <Inventory {...props}/>}/>
-                    <Route path="/inventory" render={(props) => <Inventory {...props}/>}/>
+                    <Route exact path="/" render={() => <Inventory {...props}/>}/>
+                    <Route path="/inventory" render={() => <Inventory {...props}/>}/>
                     <Route path="/recipe" component={Recipe}/>
                     <Route path="/grocerylist" component={GroceryList}/>
                 </Switch>

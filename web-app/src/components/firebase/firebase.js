@@ -19,12 +19,11 @@ export default class Firebase {
         db = firebase.firestore(app);
     }
 
-    listenDBChanges = () => {
+    listenDBChanges = (updateList) => {
         db.collection("collection").doc("document")
         .onSnapshot((snapshot) => {
-        // Loop through documents in database
-          console.log(snapshot);
-        });
+            updateList(snapshot.data()["objects"]);
+        })
     }
 
     getItems = (addObjects) => {

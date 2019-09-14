@@ -1,28 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import Fade from '@material-ui/core/Fade';
 
-class Inventory extends Component {
-    
-    constructor(props) {
-        super(props);
-        this.state = { food: this.props.objects }
-    }
-
-    render() { 
-        console.log("food: " +this.state.food);
-        return (
-            <React.Fragment>
-                <h1>Fridge Inventory</h1>  
+const Inventory = (props) => {
+    console.log("food: " + props.objects);
+    return (
+        <div className="container custom-container">
+            <h1>Fridge Inventory</h1>  
+            <Fade in={true} timeout="1000">
                 <div className="list">
                     <ul>
-                        {!!(this.state.food) ? this.state.food.map((item) => {
+                        {!!(props.objects) ? props.objects.map((item) => {
                             return (<li key={item.key}>{item.quantity}x {item.name}</li>);
                         }) : ""}
                     </ul>
                 </div>
-            </React.Fragment>
-        );
-    }
+            </Fade>
+        </div>
+    );
+    
 }
 
 Inventory.propTypes = {
