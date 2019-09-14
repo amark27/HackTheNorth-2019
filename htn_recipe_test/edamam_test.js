@@ -215,7 +215,7 @@ function generateLink(query, ...extra){
         }
     }
     
-    return httpGetAsync(link, e_Callback);
+    return recipes;
 }
 
 // Make GET request
@@ -228,7 +228,6 @@ function httpGetAsync(e_Url, callback)
     }
     xmlHttp.open("GET", e_Url, true); // true for asynchronous 
     xmlHttp.send(null);
-    return recipes;
 }
 
 // Process results from GET request for recipe
