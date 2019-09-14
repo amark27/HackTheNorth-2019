@@ -78,4 +78,17 @@ nav.navbar .sub-links a:hover {
   display: 'flex';
   flexWrap: 'wrap';
 }
+
+#login {
+  position: absolute;
+  color: inherit;
+  right: 0;
+  padding: 1rem;
+  text-align: center;
+  width: 100px;
+  height: auto;
+  text-decoration: none;
+  border: 1px solid #689f38;
+  border-radius: 20px;
+}
 /*# sourceMappingURL=style.css.map */

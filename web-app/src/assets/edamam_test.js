@@ -204,7 +204,7 @@ function addToShoppingList(shoppingList, item){
     shoppingList.push(tmp);
 }
 
-export function generateLink(query, ...extra){
+function generateLink(query, ...extra){
     // Generate link from query, diet, health, etc.
     // Let extra be an array of a pair of parameter and values
     let link = e_BASE_LINK + 'q=' + query + '&app_id=' + e_APP_ID + '&app_key=' + e_APP_KEY;
@@ -216,19 +216,23 @@ export function generateLink(query, ...extra){
             link = link + '&' + extra[i].parameter + extra[i].value;
         }
     }
-    return link;
+    
+    return httpGetAsync(link, e_Callback).then();
 }
 
 // Make GET request
-export function httpGetAsync(e_Url, callback)
+function httpGetAsync(e_Url, callback)
 {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
             callback(xmlHttp.responseText);
     }
-    xmlHttp.open("GET", e_Url, true); // true for asynchronous 
-    xmlHttp.send(null);
+    xmlHttp.open("GET", e_Url, true).then(() => {
+        xmlHttp.send(null);
+    }); // true for asynchronous   
+    console.log("done: "+recipes);     
+    return recipes;    
 }
 
 // Process results from GET request for recipe
@@ -260,8 +264,6 @@ function e_Callback(response){
 
         recipes.push(newRecipe);
     }
-
-
     /* EXAMPLE BELOW */
     /*
     // print stuff to check
@@ -359,6 +361,5 @@ function strToNumber(str){
 $(document).ready(function(){
     let lol = generateLink('pineapple');
     console.log("lol: " + lol);
-    httpGetAsync(lol, e_Callback);
     //getIngredientNutrition("apple");
   });

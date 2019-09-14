@@ -1,5 +1,5 @@
 import React from 'react';
-import {} from '../../assets/edamam_test.js';
+//import {generateLink} from '../../assets/edamam_test.js';
 
 const createQuery = (ingredients) => {
     let queryString = "";
@@ -12,18 +12,16 @@ const createQuery = (ingredients) => {
 
 const RecipeList = (props) => {
     let query = createQuery(props.ingredients);
+    //let recipes = generateLink(query, []);
 
-    //console.log(recipe);
+    //console.log(recipes);
     return ( 
         <div className="container custom-container">
             <h1>Recipe List</h1>  
-                <div className="list">
-                    <ul>
+
                         {/*.map((item) => {
                             return (<li key={item.key}>{item.quantity}x {item.name}</li>);
                         }) : ""*/}
-                    </ul>
-                </div>
         </div>
      );
 }

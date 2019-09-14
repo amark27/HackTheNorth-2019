@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Fade from '@material-ui/core/Fade';
 
 const Inventory = (props) => {
-    console.log("food: " + props.objects);
     return (
         <div className="container custom-container">
             <h1>Fridge Inventory</h1>  
