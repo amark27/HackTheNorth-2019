@@ -4,6 +4,7 @@ import Recipe from './recipe.jsx';
 import GroceryList from './groceryList.jsx';
 import NavBar from './navbar.jsx';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import recipeList from './recipeComponents/recipeList.jsx';
 
 const Header = (props) => {
    

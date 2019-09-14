@@ -7,7 +7,7 @@ const Inventory = (props) => {
     return (
         <div className="container custom-container">
             <h1>Fridge Inventory</h1>  
-            <Fade in={true} timeout="1000">
+            {/*<Fade in={true} timeout="1000">*/}
                 <div className="list">
                     <ul>
                         {!!(props.objects) ? props.objects.map((item) => {
@@ -15,7 +15,7 @@ const Inventory = (props) => {
                         }) : ""}
                     </ul>
                 </div>
-            </Fade>
+            {/*</Fade>*/}
         </div>
     );
     
