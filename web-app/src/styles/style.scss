@@ -1,4 +1,4 @@
-$main-colour: rgb(76,175,80);
+$main-colour: rgb(197,225,165);
 $grey: rgb(238,238,238);
 
 * {
@@ -15,7 +15,6 @@ header {
     width: 100vw;
     margin: 0;
     height: 7rem;
-    background: $main-colour;  
 }
 
 footer {
@@ -24,8 +23,14 @@ footer {
     background: $main-colour;  
 }
 
+body{
+    background: $main-colour;
+    overflow-x:hidden;
+}
+
 h1 {
-    margin: 0;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
     font-size: 4rem;
 }
 
@@ -40,7 +45,7 @@ div.spacer {
 
 nav.navbar {
     height: 100px;
-    background: red;
+    background: $main-colour !important;
 
     a.brand {
         font-size: 2rem;
@@ -54,14 +59,20 @@ nav.navbar {
             display: table-cell;
             vertical-align: middle;
             padding-left: 30px;
+            text-align: center;
             font-size: 1.5rem;
             height: 100px;
+            width: 150px;
         }
 
         a:hover {
             background: $grey;
         }
-    }
+    }    
+}
 
-    
+.list {
+    li{
+        font-size: 2rem;
+    }
 }
