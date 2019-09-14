@@ -42,16 +42,15 @@ void loop() {
     //Serial.print(distance);
     //Serial.println("cm");
     //Serial.println("");
-    Serial.println("Open");
+    //Serial.println("Open");
     sendSig = true;
     delay(1000);
   }
   else{
     if (sendSig) {
-      // do stuff
-      Serial.println("sending signal");
+      Serial.print("1");
     }
-    Serial.println("closed");
+    //Serial.println("closed");
     sendSig = false;
     delay(1000);
   }
