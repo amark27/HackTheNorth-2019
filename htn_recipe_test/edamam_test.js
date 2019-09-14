@@ -214,7 +214,8 @@ function generateLink(query, ...extra){
             link = link + '&' + extra[i].parameter + extra[i].value;
         }
     }
-    return link;
+    
+    return httpGetAsync(link, e_Callback);
 }
 
 // Make GET request
@@ -227,6 +228,7 @@ function httpGetAsync(e_Url, callback)
     }
     xmlHttp.open("GET", e_Url, true); // true for asynchronous 
     xmlHttp.send(null);
+    return recipes;
 }
 
 // Process results from GET request for recipe
@@ -258,8 +260,6 @@ function e_Callback(response){
 
         recipes.push(newRecipe);
     }
-
-
     /* EXAMPLE BELOW */
     /*
     // print stuff to check
@@ -357,6 +357,5 @@ function strToNumber(str){
 $(document).ready(function(){
     let lol = generateLink('pineapple');
     console.log("lol: " + lol);
-    httpGetAsync(lol, e_Callback);
     //getIngredientNutrition("apple");
   });
