@@ -23,6 +23,10 @@ footer {
     background: $main-colour;  
 }
 
+p {
+    font-size: 1.5rem;
+}
+
 body{
     background: $main-colour;
     overflow-x:hidden;
@@ -75,4 +79,9 @@ nav.navbar {
     li{
         font-size: 2rem;
     }
+}
+
+.root {
+    display: 'flex';
+    flexWrap: 'wrap';
 }

@@ -33,7 +33,6 @@ class BaseApp extends Component {
       }
 
     });
-    console.log(tempArr);
     this.setState({objects: tempArr});
   }
 

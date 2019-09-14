@@ -18,6 +18,10 @@ footer {
   background: #c5e1a5;
 }
 
+p {
+  font-size: 1.5rem;
+}
+
 body {
   background: #c5e1a5;
   overflow-x: hidden;
@@ -68,5 +72,10 @@ nav.navbar .sub-links a:hover {
 
 .list li {
   font-size: 2rem;
+}
+
+.root {
+  display: 'flex';
+  flexWrap: 'wrap';
 }
 /*# sourceMappingURL=style.css.map */
