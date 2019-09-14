@@ -188,8 +188,7 @@ function e_Callback(response){
 
     // iterate through recipes and add it to Recipes[]
     for (var i = 0; i < num_reps; i++){
-//        hits[i] = JSON.parse(hits[i]);
-        console.log("hits i rep: " + JSON.stringify(hits[i].recipe));
+        //console.log("hits i rep: " + JSON.stringify(hits[i].recipe));
         const newRecipe = Object.create(recipeObject);
         newRecipe.name = hits[i].recipe.label;
         newRecipe.image = hits[i].recipe.image;
@@ -214,6 +213,7 @@ function e_Callback(response){
     newIngr.amount = 1;
     inventory.push(newIngr);
 
+    console.log("num of recipes: " + recipes.length);
     getShoppingList(inventory, recipes[0].ingredients);
     console.log("resp: " + JSON.stringify(resp));
     console.log('ingredients: ' + JSON.stringify(ingredients));
@@ -249,8 +249,7 @@ function i_Callback(response){
 function getIngredientsArray(ingredientTextArray){
     //ingredientTextArray is an array of ingredients as text as quantity + ingredient
     console.log("in get ingr");
-    console.log("ingr txt array: " + ingredientTextArray);
-    console.log("ingr txt array typ: " + typeof(ingredientTextArray));
+    console.log("ingr txt array: " + JSON.stringify(ingredientTextArray));
     let newArray = [];
     let num_ingredients = ingredientTextArray.length;
 
@@ -268,6 +267,7 @@ function getIngredientsArray(ingredientTextArray){
         newArray.push(newIngredient);
     }
 
+    console.log("ingredients? " + JSON.stringify(newArray));
     return newArray;
 }
 
@@ -277,12 +277,13 @@ function getNutritionArray(totalNutrients){
 
     for (const key of keys) {
         const newNutr = Object.create(nutrientObject);
-        console.log("total nutr :" + JSON.stringify(totalNutrients));
-        newNutr.name = totalNutrients.key.label;
-        newNutr.quantity = totalNutrients.key.quantity;
-        newNutr. unit = totalNutrients.key.unit;
+        //console.log("total nutr :" + JSON.stringify(totalNutrients));
+        newNutr.name = totalNutrients[key].label;
+        newNutr.quantity = totalNutrients[key].quantity;
+        newNutr. unit = totalNutrients[key].unit;
         newArray.push(newNutr);
     }
+    //console.log("nutr arr: " + JSON.stringify(newArray));
     return newArray;
 }
 
@@ -298,8 +299,8 @@ function strToNumber(str){
 
 
 $(document).ready(function(){
-    /*let lol = generateLink('pineapple');
+    let lol = generateLink('pineapple');
     console.log("lol: " + lol);
     httpGetAsync(lol, e_Callback);
-    */getIngredientNutrition("apple");
+    //getIngredientNutrition("apple");
   });
