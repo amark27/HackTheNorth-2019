@@ -1,10 +1,14 @@
-//document.getElementById('e_out').innerHTML="jsworks";
 const e_BASE_LINK = 'https://api.edamam.com/search?';
 const e_APP_ID = '4f1ced5e';
 const e_APP_KEY = '80e98c7d232cd636d65a70922b58721f';
+const i_BASE_LINK = 'https://api.edamam.com/api/food-database/parser?';
+const i_APP_ID = '1eadff57';
+const i_APP_KEY = '7c203950b01fe74e6f8e253fb8c258f3';
 var inventory = [];
 var ingredients = [];
 var shoppingList = [];
+var recipes = [];
+var tmpIngredientNutrients = []; // temp global variable to store array of nutrientobjects when finding the nutrients of an ingredient
 var itemObject = {
     name:"defaultItemName", // Item name
     amount: 0, // Number of this item
@@ -30,8 +34,79 @@ var nutrientObject = {
     unit:"unit",
 };
 
-//https://api.edamam.com/search?q=chicken&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&from=0&to=3&calories=591-722&health=alcohol-free"
- //https://api.edamam.com/search?q=chicken,apple&app_id=$4f1ced5e&app_key=$80e98c7d232cd636d65a70922b58721f
+var nutrNameLookUp = {
+    CA: "Calcium",
+	CHOCDF: "Carbs", 
+    CHOLE: "Cholesterol",
+    ENERC_KCAL: "Energy",
+	FAMS: "Monounsaturated",
+	FAPU: "Polyunsaturated",
+	FASAT: "Saturated",
+	FAT: "Fat",
+	FATRN: "Trans",
+	FE: "Iron",
+	FIBTG: "Fiber",
+	FOLDFE: "Folate (Equivalent)",
+	K: "Potassium",
+	MG: "Magnesium",
+	NA: "Sodium",
+	NIA: "Niacin (B3)",
+	P: "Phosphorus",
+	PROCNT: "Protein",
+	RIBF: "Riboflavin (B2)",
+	SUGAR: "Sugars",
+	THIA: "Thiamin (B1)",
+	TOCPHA: "Vitamin E",
+	VITA_RAE: "Vitamin A",
+	VITB12: "Vitamin B12",
+	VITB6A: "Vitamin B6",
+	VITC: "Vitamin C",
+	VITD: "Vitamin D",
+	VITK1: "Vitamin K",
+	ZN: "Zinc"
+}
+
+var nutrUnitLookUp = {
+    CA: "mg",
+	CHOCDF: "g", 
+    CHOLE: "mg",
+    ENERC_KCAL: "kcal",
+	FAMS: "g",
+	FAPU: "g",
+	FASAT: "g",
+	FAT: "g",
+	FATRN: "g",
+	FE: "mg",
+	FIBTG: "g",
+	FOLDFE: "aeg",
+	K: "mg",
+	MG: "mg",
+	NA: "mg",
+	NIA: "mg",
+	P: "mg",
+	PROCNT: "g",
+	RIBF: "mg",
+	SUGAR: "g",
+	THIA: "mg",
+	TOCPHA: "mg",
+	VITA_RAE: "aeg",
+	VITB12: "aeg",
+	VITB6A: "mg",
+	VITC: "mg",
+	VITD: "aeg",
+	VITK1: "aeg",
+	ZN: "mg"
+}
+
+//https://api.edamam.com/api/food-database/parser?ingr=red%20apple&app_id=1eadff57&app_key=7c203950b01fe74e6f8e253fb8c258f3
+//https://api.edamam.com/search?q=chicken,apple&app_id=$4f1ced5e&app_key=$80e98c7d232cd636d65a70922b58721f
+
+// Gets nutrition array from ingredient name
+function getIngredientNutrition(name){
+    let link = i_BASE_LINK + "ingr=" + name + "&app_id=" + i_APP_ID + "&app_key=" + i_APP_KEY;
+    httpGetAsync(link, i_Callback);
+}
+
 
 // Gets shopping list from current inventory and ingredients
 // Assumes that ingredients have unique names
@@ -61,6 +136,7 @@ function getShoppingList(inventory, ingredients){
             
         }
     }
+    return shoppingList;
 }
 
 function addToShoppingList(shoppingList, item){
@@ -89,18 +165,18 @@ function generateLink(query, ...extra){
 }
 
 // Make GET request
-function httpGetAsync(e_Url, e_Callback)
+function httpGetAsync(e_Url, callback)
 {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            e_Callback(xmlHttp.responseText);
+            callback(xmlHttp.responseText);
     }
     xmlHttp.open("GET", e_Url, true); // true for asynchronous 
     xmlHttp.send(null);
 }
 
-// Process results from GET request
+// Process results from GET request for recipe
 function e_Callback(response){
     let resp = JSON.parse(response);
     let hits = resp.hits;
@@ -112,29 +188,69 @@ function e_Callback(response){
 
     // iterate through recipes and add it to Recipes[]
     for (var i = 0; i < num_reps; i++){
+//        hits[i] = JSON.parse(hits[i]);
+        console.log("hits i rep: " + JSON.stringify(hits[i].recipe));
         const newRecipe = Object.create(recipeObject);
-        newRecipe.name = hits[i].label;
-        newRecipe.image = hits[i].image;
-        newRecipe.sourceName = hits[i].source;
-        newRecipe.sourceLink = hits[i].url;
-        newRecipe.dietLabels = hits[i].dietLabels;
-        newRecipe.healthLabels = hits[i].healthLabels;
-        newRecipe.ingredientLines = hits[i].ingredientLines;
+        newRecipe.name = hits[i].recipe.label;
+        newRecipe.image = hits[i].recipe.image;
+        newRecipe.sourceName = hits[i].recipe.source;
+        newRecipe.sourceLink = hits[i].recipe.url;
+        newRecipe.dietLabels = hits[i].recipe.dietLabels;
+        newRecipe.healthLabels = hits[i].recipe.healthLabels;
+        newRecipe.ingredientLines = hits[i].recipe.ingredientLines;
         //TODO: instructions
-        newRecipe.instructions = "See " + hits[i].url;
-        newRecipe.ingredients = getIngredientsArray(hits[i].ingredients);
-        newRecipe.totalCal = hits[i].calories;
-        newRecipe.nutrition = getNutritionArray(hits[i].totalNutrients);
+        newRecipe.instructions = "See " + hits[i].recipe.url;
+        newRecipe.ingredients = getIngredientsArray(hits[i].recipe.ingredients);
+        newRecipe.totalCal = hits[i].recipe.calories;
+        newRecipe.nutrition = getNutritionArray(hits[i].recipe.totalNutrients);
+
+        recipes.push(newRecipe);
     }
 
 
-    // 
+    // print stuff to check
+    const newIngr = Object.create(itemObject);
+    newIngr.name = "pineapple";
+    newIngr.amount = 1;
+    inventory.push(newIngr);
+
+    getShoppingList(inventory, recipes[0].ingredients);
     console.log("resp: " + JSON.stringify(resp));
+    console.log('ingredients: ' + JSON.stringify(ingredients));
+    console.log("recipes: " + JSON.stringify(recipes));
+    console.log("shoppinglist: " + JSON.stringify(shoppingList));
+
+}
+
+// Process results from GET request for ingredient
+function i_Callback(response){
+    let resp = JSON.parse(response);
+    console.log("ingr response: " + JSON.stringify(resp));
+    let nutr = resp.parsed[0].food.nutrients;
+    console.log("1: " + JSON.stringify(resp.parsed[0].food.nutrients));
+
+    // Clear ingredient nutrients
+    tmpIngredientNutrients = [];
+
+    const keys = Object.keys(nutr);
+    for (const key of keys) {
+        const newNutr = Object.create(nutrientObject);
+        console.log("key, " + key);
+        newNutr.name = nutrNameLookUp[key];
+        newNutr.quantity = resp.parsed[0].food.nutrients[key];
+        newNutr.unit = nutrUnitLookUp[key];
+        tmpIngredientNutrients.push(newNutr);
+    }
+    console.log("dem nutrients: " + JSON.stringify(tmpIngredientNutrients));
+
 }
 
 // Gets an array of itemObjects (ingredients) from an array of ingredients as text
 function getIngredientsArray(ingredientTextArray){
     //ingredientTextArray is an array of ingredients as text as quantity + ingredient
+    console.log("in get ingr");
+    console.log("ingr txt array: " + ingredientTextArray);
+    console.log("ingr txt array typ: " + typeof(ingredientTextArray));
     let newArray = [];
     let num_ingredients = ingredientTextArray.length;
 
@@ -146,19 +262,22 @@ function getIngredientsArray(ingredientTextArray){
     // If there is ingredients
     for (var i = 0; i < num_ingredients; i++){
         const newIngredient = Object.create(itemObject);
-        newIngredient.name = ingredientTextArray[i].substr(ingredientTextArray.indexOf(' ') + 1);
-        newIngredient.amount = strToNumber(ingredientTextArray[i].substr(0, ingredientTextArray.indexOf(' ')));
+        //console.log("ingrar i : " + JSON.stringify(ingredientTextArray[i]));
+        newIngredient.name = ingredientTextArray[i].text.substr(ingredientTextArray[i].text.indexOf(' ') + 1);
+        newIngredient.amount = strToNumber(ingredientTextArray[i].text.substr(0, ingredientTextArray[i].text.indexOf(' ')));
         newArray.push(newIngredient);
     }
+
     return newArray;
 }
 
 function getNutritionArray(totalNutrients){
     let newArray = [];
-    const keys = Object.keys(fruits);
+    const keys = Object.keys(totalNutrients);
 
     for (const key of keys) {
         const newNutr = Object.create(nutrientObject);
+        console.log("total nutr :" + JSON.stringify(totalNutrients));
         newNutr.name = totalNutrients.key.label;
         newNutr.quantity = totalNutrients.key.quantity;
         newNutr. unit = totalNutrients.key.unit;
@@ -179,9 +298,8 @@ function strToNumber(str){
 
 
 $(document).ready(function(){
-    console.log("hi");
-    let lol = generateLink('pineapple');
+    /*let lol = generateLink('pineapple');
     console.log("lol: " + lol);
-
     httpGetAsync(lol, e_Callback);
+    */getIngredientNutrition("apple");
   });
