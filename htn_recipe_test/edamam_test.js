@@ -1,18 +1,20 @@
 document.getElementById('e_out').innerHTML="jsworks";
 
+const e_BASE_LINK = 'https://api.edamam.com/search?';
 const e_APP_ID = '4f1ced5e';
 const e_APP_KEY = '80e98c7d232cd636d65a70922b58721f';
 var inventory = [];
 var ingredients = [];
 var diet = [];
+var health = [];
 var shoppingList = [];
 var itemObject = {
     name:"defaultItemName", // Item name
     amount: 0, // Number of this item
     unit: "unit" // Unit name
 };
-//curl "https://api.edamam.com/search?q=chicken&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&from=0&to=3&calories=591-722&health=alcohol-free"
- 
+//https://api.edamam.com/search?q=chicken&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&from=0&to=3&calories=591-722&health=alcohol-free"
+ //https://api.edamam.com/search?q=chicken,apple&app_id=$4f1ced5e&app_key=$80e98c7d232cd636d65a70922b58721f
 
 // Gets shopping list from current inventory and ingredients
 // Assumes that ingredients have unique names
@@ -51,6 +53,22 @@ function addToShoppingList(shoppingList, item){
     //TODO:
 }
 
+function generateLink(query, ...extra){
+    // Generate link from query, diet, health, etc.
+    // Let extra be an array of a pair of parameter and values
+    let link = e_BASE_LINK + 'q=' + query + '&app_id=' + e_APP_ID + '&app_key=' + e_APP_KEY;
+    let xlength = extra.length;
+
+    if (xlength != 0){
+        // has diet/health
+        for (var i  = 0; i < xlength; i++){
+            link = link + '&' + extra[i].parameter + extra[i].value;
+        }
+    }
+
+    return link;
+}
+
 var HttpClient = function() {
     this.get = function(e_Url, e_Callback) {
         var anHttpRequest = new XMLHttpRequest();
@@ -73,5 +91,5 @@ function makeEdamamRequest(ingredients, ){
 
 
 function e_Callback(response){
-
+    // TODO
 }
