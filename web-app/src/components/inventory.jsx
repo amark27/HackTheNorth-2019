@@ -8,10 +8,6 @@ class Inventory extends Component {
         this.state = { food: this.props.objects }
     }
 
-    // componentDidUpdate(prevState){
-
-    // }
-
     render() { 
         console.log("food: " +this.state.food);
         return (
