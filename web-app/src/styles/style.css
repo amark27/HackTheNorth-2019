@@ -25,6 +25,7 @@ p {
 body {
   background: #c5e1a5;
   overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 h1 {
@@ -74,9 +75,8 @@ nav.navbar .sub-links a:hover {
   font-size: 2rem;
 }
 
-.root {
-  display: 'flex';
-  flexWrap: 'wrap';
+.spacer-recipes {
+  height: 2rem;
 }
 
 #login {

@@ -10,7 +10,6 @@ const Header = (props) => {
    
     return (
         <BrowserRouter>
-            <header>
               <NavBar/>  
                 <Switch>
                     <Route exact path="/" render={() => <Inventory {...props}/>}/>
@@ -19,7 +18,6 @@ const Header = (props) => {
                     <Route path="/grocerylist" component={GroceryList}/>
                     <Route path="/login" component={Login}/>
                 </Switch>
-            </header>
         </BrowserRouter>
     );
 }

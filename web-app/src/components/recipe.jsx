@@ -11,7 +11,7 @@ class Recipe extends Component {
     
     constructor(){
         super();
-        this.state = { foodItems: ["", "", "", "", ""], foodItemsNoDupe: [], redirect: false }
+        this.state = { foodItems: [], foodItemsNoDupe: [], redirect: false }
     }
     
     handleChange = (event) => {
@@ -24,7 +24,9 @@ class Recipe extends Component {
         e.preventDefault();
         
         let inputs = new Set(this.state.foodItems);
+        console.log(inputs);
         let inputsNoDupe = Array.from(inputs);
+        console.log(inputsNoDupe);
         this.setState({foodItemsNoDupe: inputsNoDupe, redirect: true});
     }
 
@@ -116,9 +118,6 @@ class Recipe extends Component {
                             </Button>
                         </FormControl>
                     </form>
-                    <BrowserRouter>
-                        <Route exact path="/Recipe/List" render={() => (<RecipeList ingredients={this.state.foodItemsNoDupe}/>)} />
-                    </BrowserRouter>
                 </div>
             );
         else

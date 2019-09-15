@@ -41,9 +41,6 @@ class BaseApp extends Component {
       <React.Fragment>
         <Header objects={this.state.objects}/>
 
-        <div className="container custom-container">
-          <div className="spacer"></div>
-        </div>
         <StickyFooter/>
       </React.Fragment>
     );

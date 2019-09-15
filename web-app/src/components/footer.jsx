@@ -25,13 +25,13 @@ export default function StickyFooter() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div>
       <CssBaseline />
-      <footer className={classes.footer}>
+      {/*<footer className={classes.footer}>
         <Container maxWidth="sm">
           <Typography variant="body1">FridgeFriend</Typography>
         </Container>
-      </footer>
+  </footer>*/}
     </div>
   );
 }

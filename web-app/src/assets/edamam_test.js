@@ -204,7 +204,7 @@ function addToShoppingList(shoppingList, item){
     shoppingList.push(tmp);
 }
 
-function generateLink(query, ...extra){
+export function generateLink(query, ...extra){
     // Generate link from query, diet, health, etc.
     // Let extra be an array of a pair of parameter and values
     let link = e_BASE_LINK + 'q=' + query + '&app_id=' + e_APP_ID + '&app_key=' + e_APP_KEY;
@@ -216,8 +216,8 @@ function generateLink(query, ...extra){
             link = link + '&' + extra[i].parameter + extra[i].value;
         }
     }
-    
-    return httpGetAsync(link, e_Callback).then();
+
+    return link;
 }
 
 // Make GET request
@@ -228,15 +228,21 @@ function httpGetAsync(e_Url, callback)
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
             callback(xmlHttp.responseText);
     }
-    xmlHttp.open("GET", e_Url, true).then(() => {
-        xmlHttp.send(null);
-    }); // true for asynchronous   
-    console.log("done: "+recipes);     
-    return recipes;    
+    xmlHttp.open("GET", e_Url, true); // true for asynchronous 
+    xmlHttp.send(null);
+}
+
+export function httpGetRecipes(e_Url, callback)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", e_Url, false ); // false for synchronous request
+    xmlHttp.send( null );
+    callback(xmlHttp.responseText);
+    return recipes;
 }
 
 // Process results from GET request for recipe
-function e_Callback(response){
+export function e_Callback(response){
     let resp = JSON.parse(response);
     let hits = resp.hits;
     let num_reps = hits.length
@@ -245,6 +251,7 @@ function e_Callback(response){
         return -1;
     }
 
+    recipes = [];
     // iterate through recipes and add it to Recipes[]
     for (var i = 0; i < num_reps; i++){
         //console.log("hits i rep: " + JSON.stringify(hits[i].recipe));
@@ -264,22 +271,9 @@ function e_Callback(response){
 
         recipes.push(newRecipe);
     }
-    /* EXAMPLE BELOW */
-    /*
-    // print stuff to check
-    const newIngr = Object.create(itemObject);
-    newIngr.name = "pineapple";
-    newIngr.amount = 1;
-    inventory.push(newIngr);
+    console.log("recipes " + recipes);
 
-    getShoppingList(inventory, recipes[1].ingredients);
-    //console.log("resp: " + JSON.stringify(resp));
-    console.log('inventory: ' + JSON.stringify(inventory));
-    console.log('recipe ingredients: ' + JSON.stringify(recipes[1].ingredients));
-    //console.log("recipes: " + JSON.stringify(recipes));
-    console.log("shoppinglist: " + JSON.stringify(shoppingList));
-    */
-
+    
 }
 
 // Process results from GET request for ingredient
@@ -357,9 +351,16 @@ function strToNumber(str){
     return parseFloat(str);
 }
 
+async function getRecipes(){
+    let promise = Promise.resolve()
+    let newReps = await promise;
+    return newReps;
+}
 
-$(document).ready(function(){
-    let lol = generateLink('pineapple');
-    console.log("lol: " + lol);
-    //getIngredientNutrition("apple");
-  });
+    // $(document).ready(function(){
+    //     let lol = generateLink('pineapple');
+    //     httpGetRecipes(lol, e_Callback);
+    //     console.log("lol: " + lol);
+    //     console.log("recipes " + recipes);
+    //     //getIngredientNutrition("apple");
+    //   });

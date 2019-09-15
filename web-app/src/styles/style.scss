@@ -30,7 +30,8 @@ p {
 
 body{
     background: $main-colour;
-    overflow-x:hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 h1 {
@@ -80,11 +81,10 @@ nav.navbar {
     li{
         font-size: 2rem;
     }
-}
+}   
 
-.root {
-    display: 'flex';
-    flexWrap: 'wrap';
+.spacer-recipes{
+    height: 2rem;
 }
 
 #login {
