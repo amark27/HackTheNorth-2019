@@ -315,16 +315,29 @@ function getIngredientsArray(ingredientTextArray){
     // If there is ingredients
     for (var i = 0; i < num_ingredients; i++){
         const newIngredient = Object.create(itemObject);
-        //console.log("ingrar i : " + JSON.stringify(ingredientTextArray[i]));
-        newIngredient.name = ingredientTextArray[i].text.substr(ingredientTextArray[i].text.indexOf(' ') + 1);
-        newIngredient.amount = strToNumber(ingredientTextArray[i].text.substr(0, ingredientTextArray[i].text.indexOf(' ')));
+        //console.log("ingrar i : " + JSON.stringiingredientTextArray[i].textfy(ingredientTextArray[i]));
+        newIngredient.name =ingredientTextArray[i].text.substr(ingredientTextArray[i].text.indexOf(' ') + 1);
+        
+		let indexDig = ingredientTextArray[i].text.search(/\d/);
+		let sym = ingredientTextArray[i].text.substr(0,ingredientTextArray[i].text.indexOf(' '));
+		let hexCode = sym.charCodeAt(0).toString(16);
+
+		//console.log("hexcode is " + hexCode);
+		if(checkIfSym(hexCode)){
+			newIngredient.amount = convertSymToFloat(hexCode);
+		}
+		else{
+			newIngredient.amount = strToNumber(ingredientTextArray[i].text.substr(indexDig, ingredientTextArray[i].text.indexOf(' ')));
+		}
+		
+		//console.log("Ingredient and amount: " + newIngredient.name + " " + newIngredient.amount);
+		
         newArray.push(newIngredient);
     }
 
     //console.log("ingredients? " + JSON.stringify(newArray));
     return newArray;
 }
-
 function getNutritionArray(totalNutrients){
     let newArray = [];
     const keys = Object.keys(totalNutrients);
@@ -355,6 +368,103 @@ async function getRecipes(){
     let promise = Promise.resolve()
     let newReps = await promise;
     return newReps;
+}
+
+function checkIfSym(str){
+	if(str == 'bd') //
+		return true;
+	if(str == '2153') //
+		return true;
+	if(str == '2154') 
+		return true;
+	if(str == 'bc') 
+		return true;
+	if(str == 'be') 
+		return true;
+	if(str == '2155')
+		return true;
+	if(str == '2156') 
+		return true;
+	if(str == '2157') 
+		return true;
+	if(str == '2158') 
+		return true;
+	if(str == '‌2159') 
+		return true;
+	if(str == '215a') 
+		return true;
+	if(str == '2150') 
+		return true;
+	if(str == '215b') 
+		return true;
+	if(str == '215c') 
+		return true;
+	if(str == '215d') 
+		return true;
+	if(str == '215e') 
+		return true;
+	if(str == '2151')
+		return true;
+	if(str == '2152')
+		return true;
+	return false;
+}
+
+function convertSymToFloat(str){
+	if(str == 'bd'){
+		return 0.5;
+	}
+	else if(str == '2153'){
+		return 0.33333;
+	}
+	else if(str == '2154'){
+		return 0.66666;
+	}
+	else if(str == 'bc'){
+		return 0.25;
+	}
+	else if(str == 'be'){
+		return 0.75;
+	}
+	else if(str == '2155'){
+		return 0.2;
+	}
+	else if(str == '2156'){
+		return 0.4;
+	}
+	else if(str == '2157'){
+		return 0.6;
+	}
+	else if(str == '2158'){
+		return 0.8;
+	}
+	else if(str == '2159'){
+		return 0.16666;
+	}
+	else if(str == '215a'){
+		return 0.83333;
+	}
+	else if(str == '2150'){
+		return 0.1428571429;
+	}
+	else if(str == '215b'){
+		return 0.125;
+	}
+	else if(str == '215c'){
+		return 0.375;
+	}
+	else if(str == '215d'){
+		return 0.625;
+	}
+	else if(str == '215e'){
+		return 0.875;
+	}
+	else if(str == '2151'){
+		return 0.11111;
+	}
+	else if(str == '2152'){
+		return 0.1;
+	}
 }
 
     // $(document).ready(function(){
