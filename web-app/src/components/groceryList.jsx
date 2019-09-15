@@ -12,10 +12,10 @@ const GroceryList = (props) => {
     return ( 
         <div className="container custom-container">
             <h1>Grocery List</h1>
-            <p>Generated based on your previously chosen recipe.</p>
+            <p>Checks what is in your fridge and generates a list of missing ingredients based on your previously chosen recipe.</p>
             <ul class="grocery-list">
             {(missingIng != null) ? missingIng.map((item) => {
-                return (<li>{item.amount} {item.name}</li>);
+                return (<li>{(Object.is(item.amount, NaN)) ? "1" : item.amount} {item.name}</li>);
             }) : <li>No recipe was chosen</li>}
             </ul>
         </div>
