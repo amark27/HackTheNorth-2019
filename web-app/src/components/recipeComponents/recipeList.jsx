@@ -43,7 +43,7 @@ class RecipeList extends Component {
                     return (<React.Fragment>
                             <div id={num + "-section"} className="recipe-section row"> 
                             <div className="col-lg-6">
-                                <h2>{`${num.toString()} ${recipe.name}`}</h2>
+                                <h2>{`${num.toString()}. ${recipe.name}`}</h2>
                                 <img src={recipe.image}></img>
                                 <h3>Ingredients</h3>
                                 <ul>
