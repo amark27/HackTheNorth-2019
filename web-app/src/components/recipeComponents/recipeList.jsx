@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {generateLink, httpGetRecipes, e_Callback} from '../../assets/edamam_test.js';
 import $ from "jquery";
+import { ENETUNREACH } from 'constants';
 
 const createQuery = (ingredients) => {
     let queryString = "";
@@ -18,12 +19,14 @@ class RecipeList extends Component {
     }
     
     storeRecipe = (id, recipes, setRec) => {
-        $('.recipe-section').map(()=>{
-            $(this).removeClass('active');
-        })
-        $('#'+id+"-section").addClass('active');
+        // $('.recipe-section div').each((item)=>{
+        //     item.removeClass('active');
+        // })
+        
+        // $('#'+id+"-section").addClass('active');
 
         setRec(recipes[parseInt(id)-1]);
+        alert("Recipe has been chosen.");
         console.log(recipes[parseInt(id)-1]);
     }
 
