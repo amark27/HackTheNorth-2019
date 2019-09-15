@@ -25,7 +25,7 @@ footer {
 }
 
 p {
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 
 body{
@@ -98,4 +98,31 @@ nav.navbar {
     text-decoration: none;
     border: 1px solid $dark-green;
     border-radius: 20px;
+}
+
+.recipe-section{
+    h2{
+        font-size: 2rem;
+    }
+    h3{
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    p,li{
+        font-size:1.5rem;
+    }
+    button{
+        font-size:1.25rem;
+    }
+}
+
+.active{
+    background: red;
+}
+
+.grocery-list{
+    margin-top: 2rem;
+    li{
+        font-size: 2rem;
+    }
 }

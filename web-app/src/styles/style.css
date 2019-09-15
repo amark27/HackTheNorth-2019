@@ -19,7 +19,7 @@ footer {
 }
 
 p {
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 
 body {
@@ -90,5 +90,34 @@ nav.navbar .sub-links a:hover {
   text-decoration: none;
   border: 1px solid #689f38;
   border-radius: 20px;
+}
+
+.recipe-section h2 {
+  font-size: 2rem;
+}
+
+.recipe-section h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.recipe-section p, .recipe-section li {
+  font-size: 1.5rem;
+}
+
+.recipe-section button {
+  font-size: 1.25rem;
+}
+
+.active {
+  background: red;
+}
+
+.grocery-list {
+  margin-top: 2rem;
+}
+
+.grocery-list li {
+  font-size: 2rem;
 }
 /*# sourceMappingURL=style.css.map */

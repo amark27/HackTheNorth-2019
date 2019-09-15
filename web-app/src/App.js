@@ -9,13 +9,18 @@ class BaseApp extends Component {
     super(props);
     
     this.state = {
-      objects: []
+      objects: [],
+      recipe: null
     }
   }
 
   componentDidMount(){
     this.props.firebase.getItems(this.addObjects);
     this.props.firebase.listenDBChanges(this.addObjects);
+  }
+
+  setRecipe = (recipe) => {
+    this.setState({recipe: recipe});
   }
 
   addObjects = (objs) => {
@@ -39,7 +44,7 @@ class BaseApp extends Component {
   render(){
     return (
       <React.Fragment>
-        <Header objects={this.state.objects}/>
+        <Header objects={this.state.objects} recipe={this.state.recipe} addRecipe={this.setRecipe}/>
 
         <StickyFooter/>
       </React.Fragment>

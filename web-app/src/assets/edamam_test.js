@@ -112,7 +112,7 @@ function getIngredientNutrition(name){
 
 // Gets shopping list from current inventory and ingredients
 // Assumes that ingredients have unique names
-function getShoppingList(inventory, ingredients){
+export function getShoppingList(inventory, ingredients){
     let num_ingredients = ingredients.length;
     let num_inv = inventory.length;
 
@@ -128,7 +128,7 @@ function getShoppingList(inventory, ingredients){
             addToShoppingList(shoppingList, newIngredient);
         }
     }
-
+    return shoppingList;
 }
 
 function isIngrInInv (ingredient, inventory){

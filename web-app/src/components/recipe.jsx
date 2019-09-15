@@ -4,7 +4,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
-import {BrowserRouter, Route, Redirect} from 'react-router-dom';
 import RecipeList from './recipeComponents/recipeList.jsx';
 
 class Recipe extends Component {
@@ -37,7 +36,7 @@ class Recipe extends Component {
                     <h1>Recipes</h1>
                     <p>Enter up to 5 items in your fridge to generate a recipe you can make with those items.</p>
                     <form autoComplete="off" className="root" onSubmit={this.handleSubmit}>
-                        <FormControl style={{'width': '100px'}}>
+                        <FormControl style={{'width': '200px'}}>
                             <InputLabel htmlFor="item1">Food Item 1</InputLabel>
                             <Select
                             value={this.state.foodItems[0]}
@@ -52,7 +51,7 @@ class Recipe extends Component {
                             </Select>
                         </FormControl>
                         <br></br><br></br>
-                        <FormControl style={{'width': '100px'}}>
+                        <FormControl style={{'width': '200px'}}>
                             <InputLabel htmlFor="item1">Food Item 2</InputLabel>
                             <Select
                             value={this.state.foodItems[1]}
@@ -67,7 +66,7 @@ class Recipe extends Component {
                             </Select>
                         </FormControl>
                         <br></br><br></br>
-                        <FormControl style={{'width': '100px'}}>
+                        <FormControl style={{'width': '200px'}}>
                             <InputLabel htmlFor="item1">Food Item 3</InputLabel>
                             <Select
                             value={this.state.foodItems[2]}
@@ -82,7 +81,7 @@ class Recipe extends Component {
                             </Select>
                         </FormControl>
                         <br></br><br></br>
-                        <FormControl style={{'width': '100px'}}>
+                        <FormControl style={{'width': '200px'}}>
                             <InputLabel htmlFor="item1">Food Item 4</InputLabel>
                             <Select
                             value={this.state.foodItems[3]}
@@ -97,7 +96,7 @@ class Recipe extends Component {
                             </Select>
                         </FormControl>
                         <br></br><br></br>
-                        <FormControl style={{'width': '100px'}}>
+                        <FormControl style={{'width': '200px'}}>
                             <InputLabel htmlFor="item1">Food Item 5</InputLabel>
                             <Select
                             value={this.state.foodItems[4]}
@@ -111,17 +110,17 @@ class Recipe extends Component {
                                 }) : ""}
                             </Select>
                         </FormControl>
-                        <br></br><br></br>
+                        <br></br><br></br><br></br>
                         <FormControl>
-                            <Button variant="contained" type="submit">
-                                Submit
+                            <Button variant="contained" type="submit" style={{"fontSize": "100pt"}}>
+                                Find Recipes
                             </Button>
                         </FormControl>
                     </form>
                 </div>
             );
         else
-            return (<RecipeList ingredients={this.state.foodItemsNoDupe}/>);
+            return (<RecipeList ingredients={this.state.foodItemsNoDupe} addRecipe={this.props.addRecipe}/>);
     }
 }
  

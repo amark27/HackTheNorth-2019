@@ -14,8 +14,8 @@ const Header = (props) => {
                 <Switch>
                     <Route exact path="/" render={() => <Inventory {...props}/>}/>
                     <Route path="/inventory" render={() => <Inventory {...props}/>}/>
-                    <Route path="/recipe" component={() => <Recipe {...props}/>}/>
-                    <Route path="/grocerylist" component={GroceryList}/>
+                    <Route path="/recipe" render={() => <Recipe {...props}/>}/>
+                    <Route path="/grocerylist" render={() => <GroceryList {...props}/>}/>
                     <Route path="/login" component={Login}/>
                 </Switch>
         </BrowserRouter>
