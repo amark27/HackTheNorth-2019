@@ -1,6 +1,6 @@
 # HackTheNorth-2019
-## Fridge Friend
-An automated ingredient tracker and recipe curator.  (Hack the North 2019 Finalist)
+### Fridge Friend
+An automated ingredient tracker and recipe curator.  (Won Hack the North 2019 Finalist)
 
 ![FridgeFriendLogo](/pictures/fridgeFriendLogo.png)
 
