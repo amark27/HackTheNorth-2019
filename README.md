@@ -1,8 +1,8 @@
 # HackTheNorth-2019
-# Fridge Friend
+## Fridge Friend
 An automated ingredient tracker and recipe curator.  (Hack the North 2019 Finalist)
 
-![FridgeFriendLogo](https://github.com/amark27/HackTheNorth-2019/pictures/fridgeFriendLogo.png)
+![FridgeFriendLogo](/pictures/fridgeFriendLogo.png)
 
 FridgeFriend keeps tracks of the ingredients and food items in a fridge automatically and displays them on a web application. 
 This web application also allows the user to search for recipes based on the ingredients they currently have and to generate shopping lists for the ingredients they're missing.
